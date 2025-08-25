@@ -10,6 +10,8 @@ import { Navbar } from "./components/navbar/navbar";
 
 import { RenderForm } from "./pages/renderForm/renderForm";
 
+//import {DemoQuestionEditor} from "./components/pages/formBuilder/question/demoQuestionEditor"; 
+
 import { FormContextProvider } from "./context/form-context";
 
 function App() {
@@ -19,9 +21,7 @@ function App() {
       <FormContextProvider>
         <Router>
           <Routes>
-
-            <Route path="*" element={<RenderForm />} />
-
+            <Route path="*" element={<RenderForm/>} />
           </Routes>
         </Router>
       </FormContextProvider>

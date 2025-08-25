@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useFormData } from "../../hooks/useFormData";
 import { Loading } from "../../components/common/loading/loading";
 import { ProgressBar } from "../../components/common/progressBar/progressBar";
+import { getValidAnswers, getErrorMessage } from "../../utils/helper";
 
 import { FormField } from "../../components/form/fields/formField";
 import { ChoiceField } from "../../components/form/fields/choiceField";
@@ -13,63 +14,66 @@ export const RenderForm = () => {
   const [userAnswers, setUserAnswers] = useState({});
   const [errors, setErrors] = useState({});
 
+  // Variables for progress bar
+  const totalFields = formLabels.length;
+  const validAnswers = getValidAnswers(userAnswers, errors);
+  const filledValidCount = Object.keys(validAnswers).length;
+
   useEffect(() => {
     console.log("User answers:", userAnswers);
   }, [userAnswers]);
 
-  
 
-  const totalFields = formLabels.length;
-  const validAnswers = Object.fromEntries(
-    Object.entries(userAnswers).filter(([fieldId, value]) => {
-      if (errors[fieldId]) return false;
-      if (value === undefined || value === '') return false;
-      return true;
-    })
-  );
-  const filledValidCount = Object.keys(validAnswers).length;
 
   const handleInputChange = (fieldId, value, widget) => {
-    if ((widget === "choice" || widget === "text") && (value === '' || value === undefined)) {
+    // Handle empty value for "choice" and "text"
+    if ((widget === "choice" || widget === "text") && (value === "" || value === undefined)) {
       setUserAnswers((prev) => {
         const updated = { ...prev };
         delete updated[fieldId];
         return updated;
       });
+      setErrors((prev) => ({
+        ...prev,
+        [fieldId]: getErrorMessage(widget)
+      }));
+      return;
+    }
+
+    // Handle value reset if valid for "choice" or "text"
+    if (widget === "choice" || widget === "text") {
       setErrors((prev) => {
         const updated = { ...prev };
         delete updated[fieldId];
         return updated;
       });
-      return;
+    }
+
+    // Integer specific validation (empty OR not a valid number)
+    if (widget === "integer") {
+      if (value === "" || isNaN(Number(value))) {
+        setErrors((prev) => ({
+          ...prev,
+          [fieldId]: getErrorMessage(widget)
+        }));
+      } else {
+        setErrors((prev) => {
+          const updated = { ...prev };
+          delete updated[fieldId];
+          return updated;
+        });
+      }
     }
 
     setUserAnswers((prev) => ({
       ...prev,
       [fieldId]: value,
     }));
-
-    if (widget === "integer") {
-      if (value === "" || isNaN(Number(value))) {
-        setErrors((prev) => ({
-          ...prev,
-          [fieldId]: "Please enter a valid number",
-        }));
-      } else {
-        setErrors((prev) => {
-          const newErrors = { ...prev };
-          delete newErrors[fieldId];
-          return newErrors;
-        });
-      }
-    }
   };
-
-
-
 
   const handleSaveResponse = async () => {
     console.log("User answers:", userAnswers);
+    // add any other save logic here
   };
 
   if (loading) return <Loading />;
@@ -85,6 +89,7 @@ export const RenderForm = () => {
               field={field}
               options={choices[field.id]}
               value={userAnswers[field.id]}
+              error={errors[field.id]}
               onChange={handleInputChange}
             />
           )}
@@ -102,6 +107,7 @@ export const RenderForm = () => {
             <TextField
               field={field}
               value={userAnswers[field.id]}
+              error={errors[field.id]}
               onChange={handleInputChange}
             />
           )}

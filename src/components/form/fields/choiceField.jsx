@@ -1,6 +1,6 @@
 import React from "react";
 
-export const ChoiceField = ({ field, options, value, onChange }) => {
+export const ChoiceField = ({ field, options, value, error, onChange }) => {
   return (
     <div className="choice-options">
       {options?.map((opt, index) => (
@@ -27,6 +27,7 @@ export const ChoiceField = ({ field, options, value, onChange }) => {
           </button>
         </div>
       )}
+      {error && <div className="error-message">{error}</div>}
     </div>
   );
 };

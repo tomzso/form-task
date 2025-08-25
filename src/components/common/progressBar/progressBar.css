@@ -1,17 +1,26 @@
 .progress-bar-container {
-  width: 100%;
-  background: #eee;
-  border-radius: 8px;
-  position: relative;
-  height: 24px;
-  margin: 8px 0;
+  position: fixed;
+  top: 0;
+  left: 20vw;
+  right: 20vw;
+  top: 1vw;
+  height: 1.5vh;
+  background: #E2E8F1;
+  border-radius: 20px;
+  z-index: 100;
   overflow: hidden;
+  box-shadow: 0 2px 4px rgba(133, 131, 230, 0.1);
 }
 
 .progress-bar-filled {
   height: 100%;
-  background: #4caf50;
-  transition: width 0.3s;
+  width: 0%;
+  background: #FF57DF;
+  transition: width 0.5s, background 0.8s;  /* Add background here */
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 1; 
 }
 
 .progress-bar-label {
@@ -24,4 +33,5 @@
   align-items: center;
   font-weight: bold;
   color: #222;
+  z-index: 2;  
 }
