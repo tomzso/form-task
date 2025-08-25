@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useFormData } from "../../hooks/useFormData";
 import { Loading } from "../../components/common/loading/loading";
+import { ProgressBar } from "../../components/common/progressBar/progressBar";
 
 import { FormField } from "../../components/form/fields/formField";
 import { ChoiceField } from "../../components/form/fields/choiceField";
@@ -16,7 +17,33 @@ export const RenderForm = () => {
     console.log("User answers:", userAnswers);
   }, [userAnswers]);
 
+  
+
+  const totalFields = formLabels.length;
+  const validAnswers = Object.fromEntries(
+    Object.entries(userAnswers).filter(([fieldId, value]) => {
+      if (errors[fieldId]) return false;
+      if (value === undefined || value === '') return false;
+      return true;
+    })
+  );
+  const filledValidCount = Object.keys(validAnswers).length;
+
   const handleInputChange = (fieldId, value, widget) => {
+    if ((widget === "choice" || widget === "text") && (value === '' || value === undefined)) {
+      setUserAnswers((prev) => {
+        const updated = { ...prev };
+        delete updated[fieldId];
+        return updated;
+      });
+      setErrors((prev) => {
+        const updated = { ...prev };
+        delete updated[fieldId];
+        return updated;
+      });
+      return;
+    }
+
     setUserAnswers((prev) => ({
       ...prev,
       [fieldId]: value,
@@ -38,6 +65,9 @@ export const RenderForm = () => {
     }
   };
 
+
+
+
   const handleSaveResponse = async () => {
     console.log("User answers:", userAnswers);
   };
@@ -46,6 +76,8 @@ export const RenderForm = () => {
 
   return (
     <div className="render-form">
+      <ProgressBar value={Math.round((filledValidCount / totalFields) * 100)} />
+
       {formLabels.map((field) => (
         <FormField key={field.id} label={field.label}>
           {field.widget === "choice" && (

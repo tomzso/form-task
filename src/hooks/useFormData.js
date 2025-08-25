@@ -1,4 +1,3 @@
-// hooks/useFormData.js
 import { useState, useEffect } from "react";
 import { getLabels, getChoices } from "../services/api/formApi";
 
