@@ -25,8 +25,6 @@ export const RenderForm = () => {
   }, [userAnswers]);
 
 
-
-
   const handleInputChange = (fieldId, value, widget) => {
     // Handle empty value for "choice" and "text"
     if ((widget === "choice" || widget === "text") && (value === "" || value === undefined)) {
