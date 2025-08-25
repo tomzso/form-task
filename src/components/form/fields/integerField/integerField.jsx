@@ -1,10 +1,11 @@
 import React from "react";
+import "./integerField.css";
 
 export const IntegerField = ({ field, value, error, onChange }) => {
   return (
     <div className="integer-input-wrapper">
       <input
-        type="text"
+        type="number"
         className="integer-input"
         placeholder={field.label}
         value={value || ""}

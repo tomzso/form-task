@@ -1,0 +1,17 @@
+.form-card-title-container {
+  box-sizing: border-box;
+  width: 90vw;
+  margin: 50px auto;
+  padding: 20px 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  border-top: 12px solid #007bff; /* Blue top border */
+}
+
+.form-card-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #333333;
+  margin: 0;
+}

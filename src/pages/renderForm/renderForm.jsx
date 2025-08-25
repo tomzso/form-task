@@ -4,10 +4,11 @@ import { Loading } from "../../components/common/loading/loading";
 import { ProgressBar } from "../../components/common/progressBar/progressBar";
 import { getValidAnswers, getErrorMessage } from "../../utils/helper";
 
-import { FormField } from "../../components/form/fields/formField";
-import { ChoiceField } from "../../components/form/fields/choiceField";
-import { IntegerField } from "../../components/form/fields/integerField";
-import { TextField } from "../../components/form/fields/textField";
+import { FormField } from "../../components/form/fields/formField/formField";
+import { ChoiceField } from "../../components/form/fields/choiceField/choiceField";
+import { IntegerField } from "../../components/form/fields/integerField/integerField";
+import { TextField } from "../../components/form/fields/textField/textField";
+import { FormCard } from "../../components/form/formCard/formCard";
 
 export const RenderForm = () => {
   const { formLabels, choices, loading } = useFormData();
@@ -22,6 +23,7 @@ export const RenderForm = () => {
   useEffect(() => {
     console.log("User answers:", userAnswers);
   }, [userAnswers]);
+
 
 
 
@@ -80,7 +82,12 @@ export const RenderForm = () => {
 
   return (
     <div className="render-form">
-      <ProgressBar value={Math.round((filledValidCount / totalFields) * 100)} />
+      <ProgressBar
+        value={Math.round((filledValidCount / totalFields) * 100)}
+      />
+
+      <FormCard />
+
 
       {formLabels.map((field) => (
         <FormField key={field.id} label={field.label}>
