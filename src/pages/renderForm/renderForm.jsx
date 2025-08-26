@@ -88,7 +88,7 @@ export const RenderForm = () => {
 
 
       {formLabels.map((field) => (
-        <FormField key={field.id} label={field.label}>
+        <FormField key={field.id} label={field.label} widgetType={field.widget}>
           {field.widget === "choice" && (
             <ChoiceField
               field={field}

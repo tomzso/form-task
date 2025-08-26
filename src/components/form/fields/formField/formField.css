@@ -1,0 +1,37 @@
+.form-field {
+  box-sizing: border-box;
+  width: 90vw;
+  margin: 24px auto;
+  padding: 16px 24px;
+  border-radius: 5px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-top: 6px solid transparent; /* default, overridden below */
+  border-left: 6px solid transparent;
+}
+
+/* Top border by field type */
+.form-field--integer {
+  border-top-color: #a259ec; /* purple */
+  border-left-color: #a259ec; /* purple */
+}
+
+.form-field--text {
+  border-top-color: #ffd600; /* yellow */
+  border-left-color: #ffd600; /* yellow */
+}
+
+.form-field--choice {
+  border-top-color: #b0b0b0; /* grey */
+  border-left-color: #b0b0b0; /* grey */
+}
+
+.form-label {
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 6px;
+}
