@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef  } from "react";
 import { useFormData } from "../../hooks/useFormData";
 import { Loading } from "../../components/common/loading/loading";
 import { ProgressBar } from "../../components/common/progressBar/progressBar";
@@ -20,9 +20,19 @@ export const RenderForm = () => {
   const validAnswers = getValidAnswers(userAnswers, errors);
   const filledValidCount = Object.keys(validAnswers).length;
 
+  const inputRefs = useRef([]);
+
+  useEffect(() => {
+    // Initialize refs array when formLabels change
+    inputRefs.current = formLabels.map((_, i) => inputRefs.current[i] || React.createRef());
+  }, [formLabels]);
+
+  /*
   useEffect(() => {
     console.log("User answers:", userAnswers);
   }, [userAnswers]);
+*/
+
 
 
   const handleInputChange = (fieldId, value, widget) => {
@@ -51,7 +61,10 @@ export const RenderForm = () => {
 
     // Integer specific validation (empty OR not a valid number)
     if (widget === "integer") {
+      
       if (value === "" || isNaN(Number(value))) {
+        console.log("isNaN",isNaN(Number(value)));
+        console.log("value",value);
         setErrors((prev) => ({
           ...prev,
           [fieldId]: getErrorMessage(widget)
@@ -69,6 +82,8 @@ export const RenderForm = () => {
       ...prev,
       [fieldId]: value,
     }));
+
+
   };
 
   const handleSaveResponse = async () => {
@@ -76,18 +91,30 @@ export const RenderForm = () => {
     // add any other save logic here
   };
 
+  // Function to move to the next input (scroll/focus)
+  const moveToNextField = (currentIndex) => {
+    const nextRef = inputRefs.current[currentIndex + 1];
+    if (nextRef && nextRef.current) {
+      // Scroll into view for both mobile and desktop, and focus
+      nextRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+      nextRef.current.focus();
+    }
+  };
+
+  // Handler for onKeyDown in Text/Integer field
+  const handleFieldKeyDown = (e, idx) => {
+    if (e.key === "Enter") {
+      moveToNextField(idx);
+    }
+  };
+
   if (loading) return <Loading />;
 
   return (
     <div className="render-form">
-      <ProgressBar
-        value={Math.round((filledValidCount / totalFields) * 100)}
-      />
-
+      <ProgressBar value={Math.round((Object.keys(getValidAnswers(userAnswers, errors)).length / formLabels.length) * 100)} />
       <FormCard />
-
-
-      {formLabels.map((field) => (
+      {formLabels.map((field, idx) => (
         <FormField key={field.id} label={field.label} widgetType={field.widget}>
           {field.widget === "choice" && (
             <ChoiceField
@@ -95,7 +122,11 @@ export const RenderForm = () => {
               options={choices[field.id]}
               value={userAnswers[field.id]}
               error={errors[field.id]}
-              onChange={handleInputChange}
+              onChange={(id, value, widget) => {
+                handleInputChange(id, value, widget);
+                if (value) moveToNextField(idx); // jump to next after select
+              }}
+              inputRef={inputRefs.current[idx]}
             />
           )}
 
@@ -105,6 +136,8 @@ export const RenderForm = () => {
               value={userAnswers[field.id]}
               error={errors[field.id]}
               onChange={handleInputChange}
+              inputRef={inputRefs.current[idx]}
+              onKeyDown={(e) => handleFieldKeyDown(e, idx)}
             />
           )}
 
@@ -114,11 +147,12 @@ export const RenderForm = () => {
               value={userAnswers[field.id]}
               error={errors[field.id]}
               onChange={handleInputChange}
+              inputRef={inputRefs.current[idx]}
+              onKeyDown={(e) => handleFieldKeyDown(e, idx)}
             />
           )}
         </FormField>
       ))}
-
       <div className="form-actions">
         <button className="save-button" onClick={handleSaveResponse}>
           Save Answers
