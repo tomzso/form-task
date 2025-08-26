@@ -36,6 +36,7 @@ export const RenderForm = () => {
 
 
   const handleInputChange = (fieldId, value, widget) => {
+    console.log("HEllo!!");
     // Handle empty value for "choice" and "text"
     if ((widget === "choice" || widget === "text") && (value === "" || value === undefined)) {
       setUserAnswers((prev) => {
@@ -59,29 +60,27 @@ export const RenderForm = () => {
       });
     }
 
-    // Integer specific validation (empty OR not a valid number)
-    if (widget === "integer") {
-      
-      if (value === "" || isNaN(Number(value))) {
-        console.log("isNaN",isNaN(Number(value)));
-        console.log("value",value);
-        setErrors((prev) => ({
-          ...prev,
-          [fieldId]: getErrorMessage(widget)
-        }));
-      } else {
-        setErrors((prev) => {
-          const updated = { ...prev };
-          delete updated[fieldId];
-          return updated;
-        });
-      }
-    }
-
+    
     setUserAnswers((prev) => ({
       ...prev,
       [fieldId]: value,
     }));
+    console.log("integer nan", (value === "" || isNaN(Number(value))));
+
+    // Integer specific validation (empty OR not a valid number)
+    if (widget === "integer" && (value === "" || isNaN(Number(value)))) {
+      setErrors((prev) => ({
+        ...prev,
+        [fieldId]: getErrorMessage(widget)
+      }));
+    } else {
+      setErrors((prev) => {
+        const updated = { ...prev };
+        delete updated[fieldId];
+        return updated;
+      });
+    }
+
 
 
   };
@@ -92,14 +91,30 @@ export const RenderForm = () => {
   };
 
   // Function to move to the next input (scroll/focus)
-  const moveToNextField = (currentIndex) => {
-    const nextRef = inputRefs.current[currentIndex + 1];
-    if (nextRef && nextRef.current) {
-      // Scroll into view for both mobile and desktop, and focus
-      nextRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
-      nextRef.current.focus();
-    }
-  };
+const moveToNextField = (currentIndex) => {
+  const nextRef = inputRefs.current[currentIndex + 1];
+  if (nextRef && nextRef.current) {
+    const element = nextRef.current;
+    const start = window.scrollY;
+    const end = element.getBoundingClientRect().top + window.scrollY - window.innerHeight / 2 + element.offsetHeight / 2; // center element
+    const duration = 200;
+    let startTime = null;
+
+    const animateScroll = (time) => {
+      if (!startTime) startTime = time;
+      const progress = Math.min((time - startTime) / duration, 1);
+      window.scrollTo(0, start + (end - start) * progress);
+      if (progress < 1) {
+        requestAnimationFrame(animateScroll);
+      } else {
+        element.focus(); // focus after scroll completes
+      }
+    };
+
+    requestAnimationFrame(animateScroll);
+  }
+};
+
 
   // Handler for onKeyDown in Text/Integer field
   const handleFieldKeyDown = (e, idx) => {

@@ -1,0 +1,4 @@
+.choice-label input[type="radio"]:focus {
+  outline: none;
+  box-shadow: none; /* some browsers add shadows */
+}

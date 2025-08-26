@@ -1,14 +1,21 @@
 
-/* Remove spinner buttons */
+.integer-input-wrapper {
+  width: 100%; 
+}
 
-/* Chrome, Safari, Edge, Opera */
+.integer-input {
+  width: 100%; 
+  box-sizing: border-box; 
+  font-size: 16px;
+}
+
+/* Remove spinner buttons */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
-/* Firefox */
 input[type=number] {
   -moz-appearance: textfield;
 }

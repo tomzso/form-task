@@ -3,8 +3,8 @@ import { getChoices } from "../services/api/formApi";
 
 export const useFormData = () => {
   const [formLabels, setFormLabels] = useState([
-    { label: "Material", id: "material", widget: "choice" },
     { label: "Price", id: "price", widget: "integer" },
+    { label: "Material", id: "material", widget: "choice" },
     { label: "Discount", id: "discount", widget: "integer" },
     { label: "Notes", id: "notes", widget: "text" },
     { label: "Language", id: "language", widget: "choice" },
