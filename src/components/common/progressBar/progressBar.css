@@ -1,15 +1,15 @@
 .progress-bar-container {
   position: fixed;
   bottom: 5px;
-  left: 20vw;
-  right: 20vw;
+  left: 5vw;
+  right: 5vw;
   height: 2.5vh;
   background: #ffffff;
   border-radius: 20px;
   z-index: 100;
   overflow: hidden;
-  box-shadow: 2px 2px 4px rgba(24, 4, 4, 0.1);
-  border: 0.1px solid #ccc; /* <-- added border */
+  box-shadow: 2px 2px 4px rgba(44, 22, 22, 0.1);
+  border: 1.0px solid #FF57DF; /* <-- added border */
 }
 
 .progress-bar-filled {

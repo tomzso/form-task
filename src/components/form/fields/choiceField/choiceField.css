@@ -2,3 +2,30 @@
   outline: none;
   box-shadow: none; /* some browsers add shadows */
 }
+
+.choice-options {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-left: 5px;
+}
+
+
+.choice-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 20px;
+  color: #333;
+  cursor: pointer;
+}
+
+.choice-label input[type="radio"] {
+  accent-color: #2563eb; /* modern browsers: sets the radio color (blue) */
+  cursor: pointer;
+}
+
+.choice-label input[type="radio"]:focus {
+  outline: none;
+  box-shadow: none;
+}
