@@ -1,6 +1,5 @@
 .form-field {
   box-sizing: border-box;
-  width: 90vw;
   margin: 50px auto;
   padding: 16px 24px;
   border-radius: 5px;
@@ -9,9 +8,11 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
-  border-top: 2px solid transparent; /* default, overridden below */
+  border-top: 2px solid transparent;
   border-left: 2px solid transparent;
+  border-top-left-radius: 20px;
 }
+
 
 /* Top border by field type */
 .form-field--integer {
@@ -37,3 +38,11 @@
 }
 
 
+@media (min-width: 1024px) {
+
+  .form-field {
+    border-top-width: 4px; 
+    border-left-width: 4px;
+  }
+
+}

@@ -10,6 +10,11 @@
   margin-left: 5px;
 }
 
+.choice-options:focus {
+  outline: none;
+  box-shadow: none;
+}
+
 
 .choice-label {
   display: flex;
@@ -21,7 +26,7 @@
 }
 
 .choice-label input[type="radio"] {
-  accent-color: #2563eb; /* modern browsers: sets the radio color (blue) */
+  accent-color: #2563eb;
   cursor: pointer;
 }
 

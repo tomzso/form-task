@@ -5,7 +5,7 @@
   right: 5vw;
   height: 2.5vh;
   background: #ffffff;
-  border-radius: 20px;
+  border-radius: 16px;
   z-index: 100;
   overflow: hidden;
   box-shadow: 2px 2px 4px rgba(44, 22, 22, 0.1);
@@ -32,4 +32,13 @@
   font-size: small;
   color: #222;
   z-index: 2;  
+}
+
+@media (min-width: 1024px) {
+  .progress-bar-container {
+    width: 900px;
+    margin: 0px auto;
+    top: 5px;
+  }
+
 }

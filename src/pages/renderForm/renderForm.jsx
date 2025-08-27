@@ -36,7 +36,6 @@ export const RenderForm = () => {
 
 
   const handleInputChange = (fieldId, value, widget) => {
-    console.log("HEllo!!");
     // Handle empty value for "choice" and "text"
     if ((widget === "choice" || widget === "text") && (value === "" || value === undefined)) {
       setUserAnswers((prev) => {
@@ -65,7 +64,6 @@ export const RenderForm = () => {
       ...prev,
       [fieldId]: value,
     }));
-    console.log("integer nan", (value === "" || isNaN(Number(value))));
 
     // Integer specific validation (empty OR not a valid number)
     if (widget === "integer" && (value === "" || isNaN(Number(value)))) {

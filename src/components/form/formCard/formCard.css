@@ -1,6 +1,5 @@
 .form-card-title-container {
   box-sizing: border-box;
-  width: 90vw;
   margin: 50px auto;
   padding: 20px 30px;
   border-radius: 12px;
@@ -14,4 +13,18 @@
   font-weight: 600;
   color: #333333;
   margin: 0;
+}
+
+
+
+.form-field-width {
+  width: 90vw;
+}
+
+@media (min-width: 1024px) {
+  .form-field-width {
+    width: 900px;
+  }
+
+
 }
