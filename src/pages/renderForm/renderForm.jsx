@@ -22,17 +22,11 @@ export const RenderForm = () => {
 
   const inputRefs = useRef([]);
 
+
   useEffect(() => {
     // Initialize refs array when formLabels change
     inputRefs.current = formLabels.map((_, i) => inputRefs.current[i] || React.createRef());
   }, [formLabels]);
-
-  /*
-  useEffect(() => {
-    console.log("User answers:", userAnswers);
-  }, [userAnswers]);
-*/
-
 
 
   const handleInputChange = (fieldId, value, widget) => {
@@ -116,6 +110,7 @@ const moveToNextField = (currentIndex) => {
 
   // Handler for onKeyDown in Text/Integer field
   const handleFieldKeyDown = (e, idx) => {
+    
     if (e.key === "Enter") {
       moveToNextField(idx);
     }

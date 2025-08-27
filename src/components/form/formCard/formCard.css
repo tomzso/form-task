@@ -21,9 +21,16 @@
   width: 90vw;
 }
 
+.form-field-error-message {
+  color: red;
+  font-size: 18px;
+  margin-top: 15px;
+  font-style: italic;
+}
+
 @media (min-width: 1024px) {
   .form-field-width {
-    width: 900px;
+    width: 700px;
   }
 
 

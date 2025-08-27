@@ -1,8 +1,3 @@
-.choice-label input[type="radio"]:focus {
-  outline: none;
-  box-shadow: none; /* some browsers add shadows */
-}
-
 .choice-options {
   display: flex;
   flex-direction: column;
@@ -14,7 +9,6 @@
   outline: none;
   box-shadow: none;
 }
-
 
 .choice-label {
   display: flex;
@@ -33,4 +27,28 @@
 .choice-label input[type="radio"]:focus {
   outline: none;
   box-shadow: none;
+}
+
+.choice-error {
+  display: flex;          
+  flex-direction: column; 
+  align-items: flex-end; 
+  width: 100%; 
+}
+
+.choice-clear-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.clear-button {
+  background-color: #ffffff; /* light gray background */
+  color: #708090; /* dark text */
+  border: none; /* no border */
+  border-radius: 8px; /* rounded corners */
+  padding: 6px 12px; 
+  font-size: 18px;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rg
 }

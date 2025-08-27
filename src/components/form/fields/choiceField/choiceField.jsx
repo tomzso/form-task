@@ -1,5 +1,6 @@
 import React from "react";
 import "./choiceField.css";
+import "../../formCard/formCard";
 
 export const ChoiceField = ({ field, options, value, error, onChange, inputRef, invisibleValue }) => (
   <div className="choice-options" ref={inputRef} tabIndex={0}>
@@ -27,7 +28,7 @@ export const ChoiceField = ({ field, options, value, error, onChange, inputRef, 
           className="clear-button"
           onClick={() => onChange(field.id, "", field.widget)}
         >
-          Clear
+          Clear option
         </button>
       </div>
     )}
@@ -79,6 +80,6 @@ export const ChoiceField = ({ field, options, value, error, onChange, inputRef, 
 
 
 
-    {error && <div className="error-message">{error}</div>}
+    {error && <div className="form-field-error-message choice-error">{error}</div>}
   </div>
 );

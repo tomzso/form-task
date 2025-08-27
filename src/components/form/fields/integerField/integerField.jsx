@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import "./integerField.css";
+import "../../formCard/formCard";
 import { useAutosizeTextarea } from "../../../../hooks/useAutosizeTextarea";
 
 export const IntegerField = ({ field, value, error, onChange, inputRef, onKeyDown }) => {
@@ -16,10 +17,17 @@ export const IntegerField = ({ field, value, error, onChange, inputRef, onKeyDow
         placeholder={field.label}
         value={value || ""}
         onChange={(e) => onChange(field.id, e.target.value, field.widget)}
-        onKeyDown={onKeyDown}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            onKeyDown?.(e);
+          }
+        }}
         rows={1}
+        inputMode="numeric" 
+        pattern="[0-9]*" 
       />
-      {error && <div className="error-message">{error}</div>}
+      {error && <div className="form-field-error-message">{error}</div>}
     </div>
   );
 };
