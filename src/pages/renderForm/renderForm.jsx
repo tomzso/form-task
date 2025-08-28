@@ -1,8 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useFormData } from "../../hooks/useFormData";
+import { useFieldNavigation } from "../../hooks/useFieldNavigation";
+import { useFlashFields } from "../../hooks/useFlashFields";
+
 import { Loading } from "../../components/common/loading/loading";
 import { ProgressBar } from "../../components/common/progressBar/progressBar";
-import { getValidAnswers, getErrorMessage, getFirstInvalidFieldIndex, scrollToAndFocusElement  } from "../../utils/helper";
+import { getValidAnswers, getErrorMessage, getFirstInvalidFieldIndex, markMissingFieldsAsErrors } from "../../utils/validationHelper";
 
 import { FormField } from "../../components/form/fields/formField/formField";
 import { ChoiceField } from "../../components/form/fields/choiceField/choiceField";
@@ -20,25 +23,11 @@ import {
 
 export const RenderForm = () => {
   const { formLabels, choices, loading } = useFormData();
+  const { inputRefs, moveToNextField, handleFieldKeyDown } = useFieldNavigation(formLabels);
+
   const [userAnswers, setUserAnswers] = useState({});
   const [errors, setErrors] = useState({});
-
-  const inputRefs = useRef([]);
-
-  const [flashFields, setFlashFields] = useState(new Set());
-
-  // Function to trigger flashes for empty/invalid fields
-  const flashMissingFields = (fieldIds) => {
-    setFlashFields(new Set(fieldIds));
-    setTimeout(() => setFlashFields(new Set()), 3000); // 400ms: match your animation
-  };
-
-  useEffect(() => {
-    // Initialize refs array when formLabels change
-    inputRefs.current = formLabels.map(
-      (_, i) => inputRefs.current[i] || React.createRef()
-    );
-  }, [formLabels]);
+  const { flashFields, flashMissingFields } = useFlashFields();
 
   const handleInputChange = (fieldId, value, widget) => {
     // Handle empty value for "choice" and "text"
@@ -87,99 +76,35 @@ export const RenderForm = () => {
     }
   };
 
-  // Function to move to the next input (scroll/focus)
-  const moveToNextField = (currentIndex) => {
-    const nextRef = inputRefs.current[currentIndex + 1];
-    if (nextRef && nextRef.current) {
-      const element = nextRef.current;
-      const start = window.scrollY;
-      const end =
-        element.getBoundingClientRect().top +
-        window.scrollY -
-        window.innerHeight / 2 +
-        element.offsetHeight / 2; // center element
-      const duration = 500;
-      let startTime = null;
-
-      const animateScroll = (time) => {
-        if (!startTime) startTime = time;
-        const progress = Math.min((time - startTime) / duration, 1);
-        window.scrollTo(0, start + (end - start) * progress);
-        if (progress < 1) {
-          requestAnimationFrame(animateScroll);
-        } else {
-          element.focus(); // focus after scroll completes
-        }
-      };
-
-      requestAnimationFrame(animateScroll);
-    }
-  };
-
-  // Handler for onKeyDown in Text/Integer field
-  const handleFieldKeyDown = (e, idx) => {
-    if (e.key === "Enter") {
-      moveToNextField(idx);
-    }
-  };
-
-  // New function to mark only missing fields as errors
-  const markMissingFieldsAsErrors = () => {
-    const newErrors = {};
-    formLabels.forEach((field) => {
-      const fieldId = field.id;
-      const fieldValue = userAnswers[fieldId];
-      const widgetType = field.widget;
-
-      let isMissing = false;
-
-      if (widgetType === "choice" || widgetType === "text") {
-        // For choice and text, an empty string or undefined means missing
-        if (fieldValue === "" || fieldValue === undefined) {
-          isMissing = true;
-        }
-      } else if (widgetType === "integer") {
-        // For integer, empty string, undefined, or not a valid number means missing
-        if (
-          fieldValue === "" ||
-          fieldValue === undefined ||
-          isNaN(Number(fieldValue))
-        ) {
-          isMissing = true;
-        }
-      }
-
-      if (isMissing) {
-        newErrors[fieldId] = getErrorMessage(widgetType);
-      }
-    });
-
-    // Update the errors state by merging newErrors with existing ones.
-    setErrors((prevErrors) => ({ ...prevErrors, ...newErrors }));
-  };
 
   const handleSaveResponse = async () => {
-    markMissingFieldsAsErrors();
+    const newErrors = markMissingFieldsAsErrors(formLabels, userAnswers);
+
+    // Merge newErrors with existing ones
+    setErrors((prevErrors) => ({ ...prevErrors, ...newErrors }));
 
     const missingFields = formLabels
-      .filter((field) => !userAnswers[field.id] || errors[field.id])
+      .filter((field) => !userAnswers[field.id] || errors[field.id] || newErrors[field.id])
       .map((field) => field.id);
 
     if (missingFields.length > 0) {
       flashMissingFields(missingFields);
     }
-    console.log("hello");
 
-    const invalidIdx = getFirstInvalidFieldIndex(formLabels, userAnswers, errors);
+    const invalidIdx = getFirstInvalidFieldIndex(formLabels, userAnswers, {
+      ...errors,
+      ...newErrors,
+    });
+
     if (invalidIdx !== -1) {
-      // Scroll and focus to the first invalid/empty field
-      moveToNextField(invalidIdx - 1); // -1 because moveToNextField expects the previous index
+      moveToNextField(invalidIdx - 1);
       return;
     }
-    // Everything is valid → do your save logic
+
     console.log("User answers:", userAnswers);
     // ... any further save logic
   };
+
 
   if (loading) return <Loading />;
 
@@ -187,10 +112,7 @@ export const RenderForm = () => {
     <div className="render-form">
       <ProgressBar
         value={Math.round(
-          (Object.keys(getValidAnswers(userAnswers, errors)).length /
-            formLabels.length) *
-            100
-        )}
+          (Object.keys(getValidAnswers(userAnswers, errors)).length / formLabels.length) * 100)}
       />
       <FormCard />
       {formLabels.map((field, idx) => (

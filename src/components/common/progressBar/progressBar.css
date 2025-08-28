@@ -1,15 +1,13 @@
 .progress-bar-container {
   position: fixed;
-  bottom: 5px;
-  left: 5vw;
-  right: 5vw;
-  height: 3vh;
-  background: #ffffff;
-  border-radius: 16px;
+  bottom: 0;
+  height: 1.2vh;
+  width: 100vw;
+
   z-index: 100;
   overflow: hidden;
-  box-shadow: 2px 2px 4px rgba(44, 22, 22, 0.1);
-  border: 2.0px solid #3b393b; 
+  box-shadow: 2px 2px 4px rgba(153, 145, 145, 0.1);
+  border: none; 
 }
 
 .progress-bar-filled {
@@ -43,10 +41,10 @@
 
 @media (min-width: 1024px) {
   .progress-bar-container {
-    width: 700px;
+    width: 100vw;
     margin: 0px auto;
-    top: 5px;
-    height: 20px;
+    top: 0px;
+    height: 7px;
   }
 
 }

@@ -13,7 +13,7 @@ export const ProgressBar = ({ value }) => {
           background: clampValue === 100 ? "#4caf50" : "#FF57DF",
         }}
       />
-      <span className="progress-bar-label">{clampValue}%</span>
+
     </div>
   );
 };

@@ -25,33 +25,36 @@ export const getFirstInvalidFieldIndex = (formLabels, userAnswers, errors) => {
   return -1;
 };
 
+export const markMissingFieldsAsErrors = (formLabels, userAnswers) => {
+  const newErrors = {};
 
-export const scrollToAndFocusElement = (element) => {
-  if (!element) {
-    return;
-  }
+  formLabels.forEach((field) => {
+    const fieldId = field.id;
+    const fieldValue = userAnswers[fieldId];
+    const widgetType = field.widget;
 
-  const start = window.scrollY;
-  // Calculate the target scroll position to center the element
-  const end =
-    element.getBoundingClientRect().top +
-    window.scrollY -
-    window.innerHeight / 2 +
-    element.offsetHeight / 2;
-  const duration = 500; // Animation duration in milliseconds
-  let startTime = null;
+    let isMissing = false;
 
-  const animateScroll = (time) => {
-    if (!startTime) startTime = time;
-    const progress = Math.min((time - startTime) / duration, 1);
-    window.scrollTo(0, start + (end - start) * progress);
-
-    if (progress < 1) {
-      requestAnimationFrame(animateScroll);
-    } else {
-      element.focus(); // Focus the element after scrolling completes
+    if (widgetType === "choice" || widgetType === "text") {
+      if (fieldValue === "" || fieldValue === undefined) {
+        isMissing = true;
+      }
+    } else if (widgetType === "integer") {
+      if (
+        fieldValue === "" ||
+        fieldValue === undefined ||
+        isNaN(Number(fieldValue))
+      ) {
+        isMissing = true;
+      }
     }
-  };
 
-  requestAnimationFrame(animateScroll);
+    if (isMissing) {
+      newErrors[fieldId] = getErrorMessage(widgetType);
+    }
+  });
+
+  return newErrors;
 };
+
+
