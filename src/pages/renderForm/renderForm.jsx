@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useFormData } from "../../hooks/useFormData";
 import { Loading } from "../../components/common/loading/loading";
 import { ProgressBar } from "../../components/common/progressBar/progressBar";
-import { getValidAnswers, getErrorMessage } from "../../utils/helper";
+import { getValidAnswers, getErrorMessage, getFirstInvalidFieldIndex, scrollToAndFocusElement  } from "../../utils/helper";
 
 import { FormField } from "../../components/form/fields/formField/formField";
 import { ChoiceField } from "../../components/form/fields/choiceField/choiceField";
@@ -15,7 +15,6 @@ import "./renderForm.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCircleExclamation,
-  faCircleCheck,
   faCheck,
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -23,11 +22,6 @@ export const RenderForm = () => {
   const { formLabels, choices, loading } = useFormData();
   const [userAnswers, setUserAnswers] = useState({});
   const [errors, setErrors] = useState({});
-
-  // Variables for progress bar
-  const totalFields = formLabels.length;
-  const validAnswers = getValidAnswers(userAnswers, errors);
-  const filledValidCount = Object.keys(validAnswers).length;
 
   const inputRefs = useRef([]);
 
@@ -129,17 +123,6 @@ export const RenderForm = () => {
     }
   };
 
-  const getFirstInvalidFieldIndex = () => {
-    for (let i = 0; i < formLabels.length; i++) {
-      const field = formLabels[i];
-      // Check if this field is NOT in userAnswers or if there's an error
-      if (!userAnswers[field.id] || errors[field.id]) {
-        return i;
-      }
-    }
-    return -1;
-  };
-
   // New function to mark only missing fields as errors
   const markMissingFieldsAsErrors = () => {
     const newErrors = {};
@@ -187,7 +170,7 @@ export const RenderForm = () => {
     }
     console.log("hello");
 
-    const invalidIdx = getFirstInvalidFieldIndex();
+    const invalidIdx = getFirstInvalidFieldIndex(formLabels, userAnswers, errors);
     if (invalidIdx !== -1) {
       // Scroll and focus to the first invalid/empty field
       moveToNextField(invalidIdx - 1); // -1 because moveToNextField expects the previous index
@@ -226,7 +209,7 @@ export const RenderForm = () => {
               error={errors[field.id]}
               onChange={(id, value, widget) => {
                 handleInputChange(id, value, widget);
-                if (value) moveToNextField(idx); // jump to next after select
+                if (value) moveToNextField(idx);
               }}
               inputRef={inputRefs.current[idx]}
             />
