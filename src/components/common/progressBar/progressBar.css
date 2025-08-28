@@ -3,19 +3,19 @@
   bottom: 5px;
   left: 5vw;
   right: 5vw;
-  height: 2.5vh;
+  height: 3vh;
   background: #ffffff;
   border-radius: 16px;
   z-index: 100;
   overflow: hidden;
   box-shadow: 2px 2px 4px rgba(44, 22, 22, 0.1);
-  border: 1.0px solid #FF57DF; /* <-- added border */
+  border: 2.0px solid #3b393b; 
 }
 
 .progress-bar-filled {
   height: 100%;
   width: 0%;
-  background: #FF57DF;
+  background: #006FE6;
   transition: width 0.5s, background 0.8s; 
   position: absolute;
   left: 0;
@@ -34,11 +34,19 @@
   z-index: 2;  
 }
 
+.form-header-row {
+  display: flex;
+  justify-content: space-between; 
+  align-items: center;       
+  margin-bottom: 6px;        
+}
+
 @media (min-width: 1024px) {
   .progress-bar-container {
     width: 700px;
     margin: 0px auto;
     top: 5px;
+    height: 20px;
   }
 
 }

@@ -5,7 +5,7 @@ import "./formCard.css";
 export const FormCard = () => {
   return (
     <div className="form-card-title-container form-field-width">
-      <h2 className="form-card-title">Form Randomizer sadasd ssssssssssasd as dasdas</h2>
+      <h2 className="form-card-title">Form Randomizer</h2>
     </div>
   );
 };

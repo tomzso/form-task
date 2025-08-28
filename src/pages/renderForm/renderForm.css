@@ -1,0 +1,56 @@
+.form-actions{
+  box-sizing: border-box;
+  margin: 50px auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 90vw;
+  
+}
+
+.form-button {
+  width: 130px; 
+  padding: 12px 15px; 
+  color: white; 
+  border: none; 
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer; 
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2); 
+  outline: none; 
+  transition: background-color 0.3s ease;
+}
+
+.save-button {
+  background-color: #007bff;
+}
+
+.save-button:hover {
+  background-color: #0056b3; 
+}
+
+.review-button {
+  background-color: #EF870B;
+}
+
+.review-button:hover {
+  background-color: #D67A0A;
+}
+
+
+@media (min-width: 1024px) {
+
+.form-actions{
+
+  width: 700px;
+}
+.save-button {
+  width: 170px; 
+}
+.review-button {
+  width: 170px; 
+}
+
+}
+

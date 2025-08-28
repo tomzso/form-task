@@ -5,7 +5,7 @@ export const useFormData = () => {
   const [formLabels, setFormLabels] = useState([
     { label: "Price", id: "price", widget: "integer" },
     { label: "Material", id: "material", widget: "choice" },
-    { label: "Discount", id: "discount", widget: "integer" },
+  /* { label: "Discount", id: "discount", widget: "integer" },
     { label: "Notes", id: "notes", widget: "text" },
     { label: "Language", id: "language", widget: "choice" },
     { label: "City", id: "city", widget: "text" },
@@ -22,7 +22,7 @@ export const useFormData = () => {
     { label: "Experience", id: "experience", widget: "integer" },
     { label: "Color", id: "color", widget: "choice" },
     { label: "Length", id: "length", widget: "integer" },
-    { label: "Width", id: "width", widget: "integer" },
+    { label: "Width", id: "width", widget: "integer" }, */
     { label: "NotesExtra", id: "notesExtra", widget: "text" },
     { label: "Temperature", id: "temperature", widget: "integer" },
     { label: "Humidity", id: "humidity", widget: "integer" },
