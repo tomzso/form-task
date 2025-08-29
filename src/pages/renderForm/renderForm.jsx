@@ -2,10 +2,13 @@ import React, { useEffect, useState, useRef } from "react";
 import { useFormData } from "../../hooks/useFormData";
 import { useFieldNavigation } from "../../hooks/useFieldNavigation";
 import { useFlashFields } from "../../hooks/useFlashFields";
+import { getValidAnswers, getErrorMessage, getFirstInvalidFieldIndex, markMissingFieldsAsErrors } from "../../utils/validationHelper";
+
+import { saveFormResponse } from "../../services/formResponseService";
 
 import { Loading } from "../../components/common/loading/loading";
 import { ProgressBar } from "../../components/common/progressBar/progressBar";
-import { getValidAnswers, getErrorMessage, getFirstInvalidFieldIndex, markMissingFieldsAsErrors } from "../../utils/validationHelper";
+import { Notification } from "../../components/common/notification/notification";
 
 import { FormField } from "../../components/form/fields/formField/formField";
 import { ChoiceField } from "../../components/form/fields/choiceField/choiceField";
@@ -19,6 +22,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCircleExclamation,
   faCheck,
+  faTriangleExclamation
 } from "@fortawesome/free-solid-svg-icons";
 
 export const RenderForm = () => {
@@ -28,6 +32,22 @@ export const RenderForm = () => {
   const [userAnswers, setUserAnswers] = useState({});
   const [errors, setErrors] = useState({});
   const { flashFields, flashMissingFields } = useFlashFields();
+
+
+const [notification, setNotification] = useState({ message: "", type: "" });
+
+// helper
+const showNotification = (message, type, duration = 3000) => {
+  setNotification({ message, type });
+
+  // auto-hide after duration
+  setTimeout(() => {
+    setNotification({ message: "", type: "" });
+  }, duration);
+};
+
+
+
 
   const handleInputChange = (fieldId, value, widget) => {
     // Handle empty value for "choice" and "text"
@@ -76,11 +96,9 @@ export const RenderForm = () => {
     }
   };
 
-
-  const handleSaveResponse = async () => {
+  const handleValidateResponse = () => {
     const newErrors = markMissingFieldsAsErrors(formLabels, userAnswers);
 
-    // Merge newErrors with existing ones
     setErrors((prevErrors) => ({ ...prevErrors, ...newErrors }));
 
     const missingFields = formLabels
@@ -89,6 +107,9 @@ export const RenderForm = () => {
 
     if (missingFields.length > 0) {
       flashMissingFields(missingFields);
+      showNotification(  "Please fill in all required fields!",  "warning" );
+    } else {
+      showNotification( "All fields are valid!",  "success" );
     }
 
     const invalidIdx = getFirstInvalidFieldIndex(formLabels, userAnswers, {
@@ -98,14 +119,26 @@ export const RenderForm = () => {
 
     if (invalidIdx !== -1) {
       moveToNextField(invalidIdx - 1);
-      return;
+      return false;
     }
 
-    console.log("User answers:", userAnswers);
-    // ... any further save logic
+    return true;
   };
 
-
+  const handleSaveResponse = async () => {
+    const validUserAnswer = handleValidateResponse();
+    if (validUserAnswer) {
+      const result = await saveFormResponse(userAnswers);
+      if (result.success) {
+        showNotification(  "Saved successfully!",  "success" );
+        console.log("User response saved successfully:", result.data);
+      } else {
+        showNotification(  "Server error!",  "error" );
+        console.error(result.error);
+      }
+    }
+  };
+  
   if (loading) return <Loading />;
 
   return (
@@ -170,11 +203,15 @@ export const RenderForm = () => {
 
         <button
           className="review-button form-button"
-          onClick={handleSaveResponse}
+          onClick={handleValidateResponse}
         >
-          Review <FontAwesomeIcon icon={faCircleExclamation} size="lg" />
+         Review <FontAwesomeIcon icon={faTriangleExclamation} size="lg" /> 
         </button>
       </div>
+
+    <Notification message={notification.message} type={notification.type} />
+
+
     </div>
   );
 };

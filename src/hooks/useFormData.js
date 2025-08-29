@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getChoices } from "../services/api/formApi";
+import { fetchChoicesForForm } from "../services/formDataService";
 
 export const useFormData = () => {
   const [formLabels, setFormLabels] = useState([
@@ -36,12 +36,8 @@ export const useFormData = () => {
   useEffect(() => {
     const fetchChoices = async () => {
       try {
-        for (const field of formLabels) {
-          if (field.widget === "choice") {
-            const choiceData = await getChoices(field.id);
-            setChoices((prev) => ({ ...prev, [field.id]: choiceData.data }));
-          }
-        }
+        const allChoices = await fetchChoicesForForm(formLabels);
+        setChoices(allChoices);
         setLoading(false);
       } catch (err) {
         console.error(err.message || "Error fetching choices");
@@ -53,7 +49,6 @@ export const useFormData = () => {
 
   return { formLabels, choices, loading };
 };
-
 
 
 

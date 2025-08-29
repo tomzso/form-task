@@ -4,8 +4,8 @@ export const getApi = async (url) => {
   return await apiFetch("GET", url);
 };
 
-export const postApi = async (token, data, url) => {
-  return await apiFetch("POST", url, token, data);
+export const postApi = async (userAnswers, url) => {
+  return await apiFetch("POST", url, userAnswers);
 };
 
 

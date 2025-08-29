@@ -27,9 +27,6 @@ export const apiFetch = async (method, url, data = null) => {
   }
 };
 
-
-
-
 export const handleResponse = async (response) => {
   const contentType = response.headers.get("Content-Type");
 
@@ -51,48 +48,4 @@ export const handleResponse = async (response) => {
 };
 
 
-
-export const handleJsonResponse = async (response, successMessage) => {
-  const contentType = response.headers.get("Content-Type");
-  let result;
-
-  if (contentType && contentType.includes("application/json")) {
-    result = await response.json();
-  } else {
-    result = await response.text();
-  }
-
-  if (response.ok) {
-    return {
-      success: true,
-      message: successMessage,
-      data: result,
-    };
-  } else {
-    console.error("Request failed:", result);
-    return {
-      success: false,
-      message: result,
-    };
-  }
-};
-
-export const postJson = async (url, data) => {
-  try {
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-    return response;
-  } catch (error) {
-    console.error("Network error:", error);
-    return {
-      success: false,
-      message: error.message || error.toString(),
-    };
-  }
-};
 

@@ -42,7 +42,7 @@
 
 @keyframes form-field-flash {
   0% { border-bottom-color: #ff5252; border-right-color: #ff5252;}
-  30% { border-bottom-color:  #ff5252; border-right-color:  #ff5252;}
+  50% { border-bottom-color:  #ff5252; border-right-color:  #ff5252;}
   100% { /* reset to normal */ }
 }
 
@@ -51,7 +51,7 @@
 }
 
 .error-icon {
-  color: red;
+  color: #f44336;
 }
 
 @media (min-width: 1024px) {

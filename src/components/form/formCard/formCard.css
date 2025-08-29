@@ -20,7 +20,7 @@
 }
 
 .form-field-error-message {
-  color: red;
+  color: #f44336;
   font-size: 18px;
   margin-top: 15px;
   font-style: italic;
