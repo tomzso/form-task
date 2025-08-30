@@ -27,8 +27,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 export const RenderForm = () => {
-  const notificationDuration = 5000;
-  const extraNotificationDuration = 500;
+  const notificationDuration = 3000;
+  const extraNotificationDuration = 300;
 
   const { formLabels, choices, loading } = useFormData();
   const { inputRefs, moveToNextField, handleFieldKeyDown } = useFieldNavigation(formLabels);

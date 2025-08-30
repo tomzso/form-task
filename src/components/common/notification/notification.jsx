@@ -7,6 +7,7 @@ import {
   faTimesCircle,
   faExclamationTriangle,
   faInfoCircle,
+  faSquareCheck
 } from "@fortawesome/free-solid-svg-icons";
 
 export const Notification = ({ message, type, duration }) => {
@@ -25,7 +26,7 @@ export const Notification = ({ message, type, duration }) => {
     success: faCheckCircle,
     error: faTimesCircle,
     warning: faExclamationTriangle,
-    validationsuccess: faCheckCircle,
+    validationsuccess: faSquareCheck,
   };
 
   const icon = iconMap[type] || faInfoCircle;

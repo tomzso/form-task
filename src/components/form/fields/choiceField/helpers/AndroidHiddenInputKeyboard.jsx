@@ -3,6 +3,7 @@ import React from "react";
 const AndroidHiddenInputKeyboard = ({ field, options, value, inputRef, onChange }) => {
   return (
     <select
+      inputMode="none"
       ref={inputRef}
       value={value || ""}
       onChange={(e) => onChange(field.id, e.target.value, field.widget)}
