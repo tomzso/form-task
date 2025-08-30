@@ -10,8 +10,8 @@
   gap: 8px;
   border-top: 2px solid transparent;
   border-left: 2px solid transparent;
-  border-right: 2px solid transparent;
-  border-bottom: 2px solid transparent;
+  border-right: 4px solid transparent;
+  border-bottom: 4px solid transparent;
   border-top-left-radius: 20px;
   border-bottom-right-radius: 20px;
 }
@@ -51,8 +51,9 @@
 }
 
 @keyframes form-field-flash {
-  0% { border-bottom-color: #ff5252; border-right-color: #ff5252;}
-  70% { border-bottom-color:  #ff5252; border-right-color:  #ff5252;}
+  80% { border-bottom-color: #ff5252; border-right-color: #ff5252;}
+  100% { /* reset to normal */ }
+  80% { border-bottom-color:  #ff5252; border-right-color:  #ff5252;}
   100% { /* reset to normal */ }
 }
 
