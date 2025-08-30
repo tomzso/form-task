@@ -21,9 +21,8 @@ import "./renderForm.css";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faCircleExclamation,
-  faCheck,
-  faTriangleExclamation
+  faMagnifyingGlass,
+  faCheck
 } from "@fortawesome/free-solid-svg-icons";
 
 export const RenderForm = () => {
@@ -208,7 +207,7 @@ export const RenderForm = () => {
           onClick={() => handleValidateResponse(false)}
           disabled={buttonsDisabled}
         >
-          Review <FontAwesomeIcon icon={faTriangleExclamation} size="lg" />
+          Review <FontAwesomeIcon icon={faMagnifyingGlass} size="lg" />
         </button>
       </div>
 
