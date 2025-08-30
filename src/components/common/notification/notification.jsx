@@ -17,7 +17,7 @@ export const Notification = ({ message, type, duration }) => {
         const percentage = Math.max(100 - (elapsed / duration) * 115, 0);
         setProgress(percentage);
       }, 10);
-        
+
       return () => clearInterval(interval);
     }
   }, [message, duration]);

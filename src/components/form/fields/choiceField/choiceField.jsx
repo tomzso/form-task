@@ -1,18 +1,9 @@
-// components/FormFields/ChoiceField/ChoiceField.jsx
 import React, { useRef } from "react";
 import "./choiceField.css";
 import IOSHiddenInputKeyboard from "./helpers/IOSHiddenInputKeyboard";
 import AndroidHiddenInputKeyboard from "./helpers/AndroidHiddenInputKeyboard";
 
-export const ChoiceField = ({
-  field,
-  options,
-  value,
-  error,
-  onChange,
-  inputRef,
-  lastField = false,
-}) => {
+export const ChoiceField = ({field, options, value, error, onChange, inputRef, lastField = false}) => {
   const hiddenInputRef = useRef(null);
 
   const handleRadioChange = (selectedValue) => {

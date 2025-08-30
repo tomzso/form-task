@@ -7,6 +7,3 @@ export const getApi = async (url) => {
 export const postApi = async (userAnswers, url) => {
   return await apiFetch("POST", url, userAnswers);
 };
-
-
-

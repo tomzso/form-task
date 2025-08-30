@@ -6,22 +6,16 @@ import {
   Route,
 } from "react-router-dom";
 
-
 import { RenderForm } from "./pages/renderForm/renderForm";
-import { AutofocusDemo } from "./pages/renderForm/autofocusDemo";
-
 
 function App() {
-
   return (
     <div className="App">
-
-        <Router>
-          <Routes>
-            <Route path="*" element={<RenderForm/>} />
-          </Routes>
-        </Router>
-
+      <Router>
+        <Routes>
+          <Route path="*" element={<RenderForm />} />
+        </Routes>
+      </Router>
     </div>
   );
 }

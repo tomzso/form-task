@@ -7,7 +7,7 @@ export const TextField = ({ field, value, error, onChange, inputRef, onKeyDown }
   const localRef = useRef();
   const finalRef = inputRef || localRef; // This correctly determines which ref to use
 
-  useAutosizeTextarea(finalRef, value); // This hook is already being used
+  useAutosizeTextarea(finalRef, value); 
 
   return (
     <div className="text-input-wrapper">

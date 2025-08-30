@@ -1,7 +1,7 @@
 export const apiFetch = async (method, url, data = null) => {
   try {
     const options = {
-      method
+      method,
     };
 
     if (data) {
@@ -46,6 +46,3 @@ export const handleResponse = async (response) => {
     };
   }
 };
-
-
-

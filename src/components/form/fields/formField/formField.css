@@ -16,8 +16,6 @@
   border-bottom-right-radius: 20px;
 }
 
-
-/* Top border by field type */
 .form-field--integer {
   border-top-color: #a259ec; /* purple */
   border-left-color: #a259ec; /* purple */
@@ -31,6 +29,10 @@
 .form-field--choice {
   border-top-color: #b0b0b0; /* grey */
   border-left-color: #b0b0b0; /* grey */
+}
+
+.error-icon {
+  color: #f44336; /* red */
 }
 
 .form-label {
@@ -50,17 +52,11 @@
   animation: form-field-flash 3s;
 }
 
-.error-icon {
-  color: #f44336;
-}
-
 @media (min-width: 1024px) {
-
   .form-field {
     border-top-width: 6px solid transparent; 
     border-left-width: 6px solid transparent;
     border-right: 6px solid transparent;
     border-bottom: 6px solid transparent;
   }
-
 }

@@ -10,10 +10,9 @@ export const ProgressBar = ({ value }) => {
         className="progress-bar-filled"
         style={{
           width: `${clampValue}%`,
-          background: clampValue === 100 ? "#4caf50" : "#FF57DF",
+          background: clampValue === 100 ? "#0047AB" : "#FF57DF",
         }}
       />
-
     </div>
   );
 };

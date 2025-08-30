@@ -1,4 +1,4 @@
-import { postApi, getApi} from "./apis.js";
+import { postApi, getApi } from "./apis.js";
 const BASE_URL = `${import.meta.env.VITE_API_URL}`;
 const FORM_PATH = `${import.meta.env.VITE_API_URL_FORM_PATH}`
 const CHOICE_PATH = `${import.meta.env.VITE_API_URL_CHOICE_PATH}`
@@ -18,7 +18,3 @@ export const createForm = async ( userAnswers) => {
   let link = `${BASE_URL}${SAVE_PATH}`;
   return await postApi(userAnswers, link);
 };
-
-
-
-

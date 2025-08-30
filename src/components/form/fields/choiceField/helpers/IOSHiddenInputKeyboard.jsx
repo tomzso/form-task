@@ -1,5 +1,4 @@
-// components/FormFields/ChoiceField/helpers/IOSHiddenInputs.jsx
-import React, { useRef, forwardRef } from "react";
+import React, { forwardRef } from "react";
 
 const IOSHiddenInputKeyboard = forwardRef(({ field, value, inputRef, lastField }, hiddenInputRef) => {
   return (

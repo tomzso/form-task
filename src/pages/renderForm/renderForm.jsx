@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useState } from "react";
 import { useFormData } from "../../hooks/useFormData";
 import { useFieldNavigation } from "../../hooks/useFieldNavigation";
 import { useFlashFields } from "../../hooks/useFlashFields";
@@ -26,8 +26,6 @@ import {
   faTriangleExclamation
 } from "@fortawesome/free-solid-svg-icons";
 
-
-
 export const RenderForm = () => {
   const notificationDuration = 5000;
 
@@ -38,10 +36,6 @@ export const RenderForm = () => {
   const [errors, setErrors] = useState({});
   const { flashFields, flashMissingFields } = useFlashFields();
   const { notification, showNotification } = useNotification(notificationDuration);
-
-
-
-
 
   const handleInputChange = (fieldId, value, widget) => {
     // Handle empty value for "choice" and "text"
@@ -135,14 +129,11 @@ export const RenderForm = () => {
     }
   };
 
-
   if (loading) return <Loading />;
-
   return (
     <div className="render-form">
       <ProgressBar
-        value={Math.round(
-          (Object.keys(getValidAnswers(userAnswers, errors)).length / formLabels.length) * 100)}
+        value={Math.round((Object.keys(getValidAnswers(userAnswers, errors)).length / formLabels.length) * 100)}        
       />
       <FormCard />
       {formLabels.map((field, idx) => (
@@ -167,7 +158,6 @@ export const RenderForm = () => {
               lastField={idx === formLabels.length - 1}
             />
           )}
-
           {field.widget === "integer" && (
             <IntegerField
               field={field}
@@ -178,7 +168,6 @@ export const RenderForm = () => {
               onKeyDown={(e) => handleFieldKeyDown(e, idx)}
             />
           )}
-
           {field.widget === "text" && (
             <TextField
               field={field}
@@ -198,7 +187,6 @@ export const RenderForm = () => {
         >
           Submit <FontAwesomeIcon icon={faCheck} size="lg" />
         </button>
-
         <button
           className="review-button form-button"
           onClick={() => handleValidateResponse(false)}
@@ -206,10 +194,7 @@ export const RenderForm = () => {
           Review <FontAwesomeIcon icon={faTriangleExclamation} size="lg" />
         </button>
       </div>
-
       <Notification message={notification.message} type={notification.type} duration={notification.duration} />
-
-
     </div>
   );
 };

@@ -1,4 +1,3 @@
-// components/FormFields/ChoiceField/helpers/AndroidHiddenSelect.jsx
 import React from "react";
 
 const AndroidHiddenInputKeyboard = ({ field, options, value, inputRef, onChange }) => {
