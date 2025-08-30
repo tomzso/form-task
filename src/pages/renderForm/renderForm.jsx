@@ -170,6 +170,7 @@ export const RenderForm = () => {
               }}
               inputRef={inputRefs.current[idx]}
               lastField={idx === formLabels.length - 1} // lastField={idx === formLabels.length - 1} lastField={choiceIdxs.includes(idx)}
+              nextFieldType={formLabels[idx + 1]?.widget}
             />
           )}
           {field.widget === "integer" && (

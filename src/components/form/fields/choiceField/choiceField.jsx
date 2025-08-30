@@ -1,11 +1,12 @@
 import React, { useRef } from "react";
 import "./choiceField.css";
 import "../../formCard/formCard.css";
-import IOSHiddenInputKeyboard from "./helpers/IOSHiddenInputKeyboard";
+import IOSDisplayInputKeyboard from "./helpers/IOSDisplayInputKeyboard";
 import AndroidHiddenInputKeyboard from "./helpers/AndroidHiddenInputKeyboard";
+import Autoscroll from "./helpers/Autoscroll";
 import { isIOS, isAndroid } from "react-device-detect";
 
-export const ChoiceField = ({ field, options, value, error, onChange, inputRef, lastField = false }) => {
+export const ChoiceField = ({ field, options, value, error, onChange, inputRef, nextFieldType, lastField = false }) => {
   const hiddenInputRef = useRef(null);
 
   const handleRadioChange = (selectedValue) => {
@@ -45,9 +46,19 @@ export const ChoiceField = ({ field, options, value, error, onChange, inputRef, 
         </div>
       )}
 
-      {/* iOS hidden inputs keyboard*/}
-      {isIOS &&
-        <IOSHiddenInputKeyboard
+      {/* iOS hidden inputs keyboard and Desktop autoscroll */}
+      {(isIOS || !isAndroid) &&
+        <Autoscroll
+          ref={hiddenInputRef}
+          field={field}
+          value={value}
+          inputRef={inputRef}
+          lastField={lastField}
+        />}
+
+      {/* iOS display inputs keyboard*/}
+      {isIOS && nextFieldType !== "choice" &&
+        <IOSDisplayInputKeyboard
           ref={hiddenInputRef}
           field={field}
           value={value}
@@ -56,7 +67,7 @@ export const ChoiceField = ({ field, options, value, error, onChange, inputRef, 
         />}
 
       {/* Android hidden inputs keyboard */}
-      {isAndroid &&
+      {isAndroid && 
         <AndroidHiddenInputKeyboard
           field={field}
           options={options}
