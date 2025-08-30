@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import "./textField.css";
-import "../../formCard/formCard";
+import "../../formCard/formCard.css";
 import { useAutosizeTextarea } from "../../../../hooks/useAutosizeTextarea";
 
 export const TextField = ({ field, value, error, onChange, inputRef, onKeyDown }) => {
@@ -14,7 +14,7 @@ export const TextField = ({ field, value, error, onChange, inputRef, onKeyDown }
       <textarea
         ref={finalRef}
         className="text-input"
-        placeholder={field.label}
+        placeholder={field.widget}
         value={value || ""}
         onChange={(e) => onChange(field.id, e.target.value, field.widget)}
         onKeyDown={(e) => {

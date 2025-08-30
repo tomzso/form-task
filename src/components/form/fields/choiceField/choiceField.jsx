@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import "./choiceField.css";
+import "../../formCard/formCard.css";
 import IOSHiddenInputKeyboard from "./helpers/IOSHiddenInputKeyboard";
 import AndroidHiddenInputKeyboard from "./helpers/AndroidHiddenInputKeyboard";
 

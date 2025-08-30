@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import "./integerField.css";
-import "../../formCard/formCard";
+import "../../formCard/formCard.css";
 import { useAutosizeTextarea } from "../../../../hooks/useAutosizeTextarea";
 
 export const IntegerField = ({ field, value, error, onChange, inputRef, onKeyDown }) => {
@@ -14,7 +14,7 @@ export const IntegerField = ({ field, value, error, onChange, inputRef, onKeyDow
       <textarea
         ref={finalRef}
         className="integer-input"
-        placeholder={field.label}
+        placeholder={field.widget}
         value={value || ""}
         onChange={(e) => onChange(field.id, e.target.value, field.widget)}
         onKeyDown={(e) => {
