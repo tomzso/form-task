@@ -1,7 +1,18 @@
+// components/FormFields/ChoiceField/ChoiceField.jsx
 import React, { useRef } from "react";
 import "./choiceField.css";
+import IOSHiddenInputKeyboard from "./helpers/IOSHiddenInputKeyboard";
+import AndroidHiddenInputKeyboard from "./helpers/AndroidHiddenInputKeyboard";
 
-export const ChoiceField = ({ field, options, value, error, onChange, inputRef }) => {
+export const ChoiceField = ({
+  field,
+  options,
+  value,
+  error,
+  onChange,
+  inputRef,
+  lastField = false,
+}) => {
   const hiddenInputRef = useRef(null);
 
   const handleRadioChange = (selectedValue) => {
@@ -41,45 +52,23 @@ export const ChoiceField = ({ field, options, value, error, onChange, inputRef }
         </div>
       )}
 
-      {/* Hidden text input to enable and trigger iOS keyboard in the next field */}
-      <input
+      {/* iOS hidden inputs keyboard*/}
+      <IOSHiddenInputKeyboard
         ref={hiddenInputRef}
-        type="text"
-        value={value || ""}
-        onChange={() => { }}
-        style={{
-          position: "absolute",
-          width: "1px",
-          height: "1px",
-          opacity: 0,
-          pointerEvents: "none",
-        }}
+        field={field}
+        value={value}
+        inputRef={inputRef}
+        lastField={lastField}
       />
 
-      {/* Invisible text input for IOS in order turn off the keyboard when current is this choice field*/}
-      <input
-        ref={inputRef}
-        type="text"
-        value={value || ""}
-        onFocus={() => {
-          // When user lands here with Next/Back, redirect focus to the first radio
-          const firstRadio = document.querySelector(
-            `input[name="choice-${field.id}"]`
-          );
-          if (firstRadio) firstRadio.focus();
-        }}
-        onChange={() => { }} // no-op to avoid React warnings
-        style={{
-          position: "absolute",
-
-          width: "1px",
-          height: "1px",
-          opacity: 0,
-        }}
+      {/* Android hidden inputs keyboard */}
+      <AndroidHiddenInputKeyboard
+        field={field}
+        options={options}
+        value={value}
+        inputRef={inputRef}
+        onChange={onChange}
       />
-
-
-
 
       {error && <div className="form-field-error-message choice-error">{error}</div>}
     </div>

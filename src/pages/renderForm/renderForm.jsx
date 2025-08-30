@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useFormData } from "../../hooks/useFormData";
 import { useFieldNavigation } from "../../hooks/useFieldNavigation";
 import { useFlashFields } from "../../hooks/useFlashFields";
+import { useNotification } from "../../hooks/useNotification";
 import { getValidAnswers, getErrorMessage, getFirstInvalidFieldIndex, markMissingFieldsAsErrors } from "../../utils/validationHelper";
 
 import { saveFormResponse } from "../../services/formResponseService";
@@ -25,26 +26,19 @@ import {
   faTriangleExclamation
 } from "@fortawesome/free-solid-svg-icons";
 
+
+
 export const RenderForm = () => {
+  const notificationDuration = 5000;
+
   const { formLabels, choices, loading } = useFormData();
   const { inputRefs, moveToNextField, handleFieldKeyDown } = useFieldNavigation(formLabels);
 
   const [userAnswers, setUserAnswers] = useState({});
   const [errors, setErrors] = useState({});
   const { flashFields, flashMissingFields } = useFlashFields();
+  const { notification, showNotification } = useNotification(notificationDuration);
 
-
-const [notification, setNotification] = useState({ message: "", type: "" });
-
-// helper
-const showNotification = (message, type, duration = 3000) => {
-  setNotification({ message, type });
-
-  // auto-hide after duration
-  setTimeout(() => {
-    setNotification({ message: "", type: "" });
-  }, duration);
-};
 
 
 
@@ -96,7 +90,7 @@ const showNotification = (message, type, duration = 3000) => {
     }
   };
 
-  const handleValidateResponse = () => {
+  const handleValidateResponse = (saveResponse) => {
     const newErrors = markMissingFieldsAsErrors(formLabels, userAnswers);
 
     setErrors((prevErrors) => ({ ...prevErrors, ...newErrors }));
@@ -107,9 +101,11 @@ const showNotification = (message, type, duration = 3000) => {
 
     if (missingFields.length > 0) {
       flashMissingFields(missingFields);
-      showNotification(  "Please fill in all required fields!",  "warning" );
+      showNotification("Please fill in all required fields correctly!", "warning");
     } else {
-      showNotification( "All fields are valid!",  "success" );
+      if(!saveResponse){
+        showNotification("All fields are valid!", "validation-success");
+      }
     }
 
     const invalidIdx = getFirstInvalidFieldIndex(formLabels, userAnswers, {
@@ -126,19 +122,20 @@ const showNotification = (message, type, duration = 3000) => {
   };
 
   const handleSaveResponse = async () => {
-    const validUserAnswer = handleValidateResponse();
+    const validUserAnswer = handleValidateResponse(true);
     if (validUserAnswer) {
       const result = await saveFormResponse(userAnswers);
       if (result.success) {
-        showNotification(  "Saved successfully!",  "success" );
+        showNotification("Saved successfully!", "success");
         console.log("User response saved successfully:", result.data);
       } else {
-        showNotification(  "Server error!",  "error" );
+        showNotification("Server error!", "error");
         console.error(result.error);
       }
     }
   };
-  
+
+
   if (loading) return <Loading />;
 
   return (
@@ -167,6 +164,7 @@ const showNotification = (message, type, duration = 3000) => {
                 if (value) moveToNextField(idx);
               }}
               inputRef={inputRefs.current[idx]}
+              lastField={idx === formLabels.length - 1}
             />
           )}
 
@@ -203,13 +201,13 @@ const showNotification = (message, type, duration = 3000) => {
 
         <button
           className="review-button form-button"
-          onClick={handleValidateResponse}
+          onClick={() => handleValidateResponse(false)}
         >
-         Review <FontAwesomeIcon icon={faTriangleExclamation} size="lg" /> 
+          Review <FontAwesomeIcon icon={faTriangleExclamation} size="lg" />
         </button>
       </div>
 
-    <Notification message={notification.message} type={notification.type} />
+      <Notification message={notification.message} type={notification.type} duration={notification.duration} />
 
 
     </div>

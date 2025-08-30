@@ -1,17 +1,28 @@
 .notification {
   position: fixed;
-  top: 20px;
-  right: 20px;
-  padding: 12px 20px;
+  top: 0px;
+  left: 5vw;
+  right: 5vw;
   border-radius: 8px;
   color: white;
   font-size: 20px;
   box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
   z-index: 1000;
+  overflow: hidden;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 20px;
 }
 
 .notification.success {
   background-color: #4caf50; /* green */
+}
+
+.notification.validation-success {
+  background-color: #66bb6a; /* light green */
 }
 
 .notification.error {
@@ -19,6 +30,41 @@
 }
 
 .notification.warning {
-  background-color: #EF870B; /* orange */
+  background-color: #ef870b; /* orange */
 }
 
+.notification-progress {
+  height: 4px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+.notification-progress.success { 
+  background-color: #2e7d32; /* darker green */
+}
+
+.notification-progress.validation-success { 
+  background-color: #2e7d32; /* darker green */
+}
+
+
+.notification-progress.error {
+  background-color: #b71c1c; /* darker red */
+}
+
+.notification-progress.warning {
+  background-color: #b85c00; /* darker orange */
+}
+
+@media (min-width: 1024px) {
+
+.notification {
+  top: 20px;
+  right: 20px;
+  width: 300px;
+  left: auto;
+  padding: 12px 20px;
+}
+
+}
