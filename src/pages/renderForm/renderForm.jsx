@@ -45,6 +45,12 @@ export const RenderForm = () => {
     setTimeout(() => setButtonsDisabled(false), notificationDuration + extraNotificationDuration); 
   };
 
+  // all indexes where widget is "choice"
+  const choiceIdxs = formLabels
+    .map((field, idx) => (field.widget === "choice" ? idx : null))
+    .filter((idx) => idx !== null);
+
+
   const handleInputChange = (fieldId, value, widget) => {
     // Handle empty value for "choice" and "text"
     if (
@@ -163,7 +169,7 @@ export const RenderForm = () => {
                 if (value) moveToNextField(idx);
               }}
               inputRef={inputRefs.current[idx]}
-              lastField={idx === formLabels.length - 1}
+              lastField={idx === formLabels.length - 1} // lastField={idx === formLabels.length - 1} lastField={choiceIdxs.includes(idx)}
             />
           )}
           {field.widget === "integer" && (

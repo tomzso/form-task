@@ -17,6 +17,7 @@ const IOSHiddenInputKeyboard = forwardRef(({ field, value, inputRef, lastField }
             opacity: 0,
             pointerEvents: "none",
           }}
+
         />
       )}
 

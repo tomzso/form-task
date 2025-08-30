@@ -3,8 +3,9 @@ import "./choiceField.css";
 import "../../formCard/formCard.css";
 import IOSHiddenInputKeyboard from "./helpers/IOSHiddenInputKeyboard";
 import AndroidHiddenInputKeyboard from "./helpers/AndroidHiddenInputKeyboard";
+import { isIOS, isAndroid } from "react-device-detect";
 
-export const ChoiceField = ({field, options, value, error, onChange, inputRef, lastField = false}) => {
+export const ChoiceField = ({ field, options, value, error, onChange, inputRef, lastField = false }) => {
   const hiddenInputRef = useRef(null);
 
   const handleRadioChange = (selectedValue) => {
@@ -45,22 +46,24 @@ export const ChoiceField = ({field, options, value, error, onChange, inputRef, l
       )}
 
       {/* iOS hidden inputs keyboard*/}
-      <IOSHiddenInputKeyboard
-        ref={hiddenInputRef}
-        field={field}
-        value={value}
-        inputRef={inputRef}
-        lastField={lastField}
-      />
+      {isIOS &&
+        <IOSHiddenInputKeyboard
+          ref={hiddenInputRef}
+          field={field}
+          value={value}
+          inputRef={inputRef}
+          lastField={lastField}
+        />}
 
       {/* Android hidden inputs keyboard */}
-      <AndroidHiddenInputKeyboard
-        field={field}
-        options={options}
-        value={value}
-        inputRef={inputRef}
-        onChange={onChange}
-      />
+      {isAndroid &&
+        <AndroidHiddenInputKeyboard
+          field={field}
+          options={options}
+          value={value}
+          inputRef={inputRef}
+          onChange={onChange}
+        />}
 
       {error && <div className="form-field-error-message choice-error">{error}</div>}
     </div>

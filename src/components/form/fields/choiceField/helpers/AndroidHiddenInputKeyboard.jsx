@@ -9,7 +9,6 @@ const AndroidHiddenInputKeyboard = ({ field, options, value, inputRef, onChange 
       onChange={(e) => onChange(field.id, e.target.value, field.widget)}
       onFocus={(e) => e.target.blur()}
       style={{
-        position: "absolute",
         width: "1px",
         height: "1px",
         opacity: 0,
