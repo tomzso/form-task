@@ -13,12 +13,15 @@
   font-weight: 600;
   color: #333333;
   margin: 0;
+  text-align: left;
 }
+
 .form-card-description {
   font-size: 22px;   
   font-weight: 400;  
   color: #555555;  
   margin-top: 15px;
+
 }
 
 .form-field-width {

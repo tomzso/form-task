@@ -28,14 +28,22 @@ import {
 
 export const RenderForm = () => {
   const notificationDuration = 5000;
+  const extraNotificationDuration = 500;
 
   const { formLabels, choices, loading } = useFormData();
   const { inputRefs, moveToNextField, handleFieldKeyDown } = useFieldNavigation(formLabels);
 
+  const [buttonsDisabled, setButtonsDisabled] = useState(false);
   const [userAnswers, setUserAnswers] = useState({});
   const [errors, setErrors] = useState({});
   const { flashFields, flashMissingFields } = useFlashFields();
   const { notification, showNotification } = useNotification(notificationDuration);
+
+  const showTimedNotification = (message, type) => {
+    showNotification(message, type);
+    setButtonsDisabled(true);
+    setTimeout(() => setButtonsDisabled(false), notificationDuration + extraNotificationDuration); 
+  };
 
   const handleInputChange = (fieldId, value, widget) => {
     // Handle empty value for "choice" and "text"
@@ -95,10 +103,10 @@ export const RenderForm = () => {
 
     if (missingFields.length > 0) {
       flashMissingFields(missingFields);
-      showNotification("Please fill in all required fields correctly!", "warning");
+      showTimedNotification("Please fill in all required fields correctly!", "warning");
     } else {
-      if(!saveResponse){
-        showNotification("All fields are valid!", "validation-success");
+      if (!saveResponse) {
+        showTimedNotification("All fields are valid!", "validationsuccess");
       }
     }
 
@@ -120,10 +128,10 @@ export const RenderForm = () => {
     if (validUserAnswer) {
       const result = await saveFormResponse(userAnswers);
       if (result.success) {
-        showNotification("Saved successfully!", "success");
+        showTimedNotification("Saved successfully!", "success");
         console.log("User response saved successfully:", result.data);
       } else {
-        showNotification("Server error!", "error");
+        showTimedNotification("Server error!", "error");
         console.error(result.error);
       }
     }
@@ -133,7 +141,7 @@ export const RenderForm = () => {
   return (
     <div className="render-form">
       <ProgressBar
-        value={Math.round((Object.keys(getValidAnswers(userAnswers, errors)).length / formLabels.length) * 100)}        
+        value={Math.round((Object.keys(getValidAnswers(userAnswers, errors)).length / formLabels.length) * 100)}
       />
       <FormCard />
       {formLabels.map((field, idx) => (
@@ -184,16 +192,19 @@ export const RenderForm = () => {
         <button
           className="save-button form-button"
           onClick={handleSaveResponse}
+          disabled={buttonsDisabled}
         >
           Submit <FontAwesomeIcon icon={faCheck} size="lg" />
         </button>
         <button
           className="review-button form-button"
           onClick={() => handleValidateResponse(false)}
+          disabled={buttonsDisabled}
         >
           Review <FontAwesomeIcon icon={faTriangleExclamation} size="lg" />
         </button>
       </div>
+
       <Notification message={notification.message} type={notification.type} duration={notification.duration} />
     </div>
   );

@@ -1,42 +1,43 @@
 import React, { useEffect, useState } from "react";
 import "./notification.css";
-
+import { useNotificationProgress } from "../../../hooks/useNotificationProgress";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheckCircle, faTimesCircle, faExclamationTriangle, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCheckCircle,
+  faTimesCircle,
+  faExclamationTriangle,
+  faInfoCircle,
+} from "@fortawesome/free-solid-svg-icons";
 
 export const Notification = ({ message, type, duration }) => {
-  const [progress, setProgress] = useState(100);
+  const [visible, setVisible] = useState(false);
+  const progress = useNotificationProgress(duration, visible);
 
   useEffect(() => {
-    if (message) {
-      setProgress(100); // reset progress
-      const start = Date.now();
+    setVisible(!!message);
 
-      const interval = setInterval(() => {
-        const elapsed = Date.now() - start;
-        const percentage = Math.max(100 - (elapsed / duration) * 115, 0);
-        setProgress(percentage);
-      }, 10);
-
-      return () => clearInterval(interval);
-    }
+    const timeout = setTimeout(() => setVisible(false), duration);
+    return () => clearTimeout(timeout);
   }, [message, duration]);
 
-  if (!message) return null;
-
+  
   const iconMap = {
     success: faCheckCircle,
     error: faTimesCircle,
     warning: faExclamationTriangle,
+    validationsuccess: faCheckCircle,
   };
 
   const icon = iconMap[type] || faInfoCircle;
 
+  if (!message) return null;
   return (
-    <div className={`notification ${type}`}>
-      <FontAwesomeIcon icon={icon} className="notification-icon" />{" "}
-      {message}
-      <div className={`notification-progress ${type}`} style={{ width: `${progress}%` }} />
+    <div key={message} className={`notification ${type} ${visible ? "show" : ""}`}>
+      <FontAwesomeIcon icon={icon} className="notification-icon" /> {message}
+      <div
+        className={`notification-progress ${type}`}
+        style={{ width: `${progress}%` }}
+      />
     </div>
   );
 };

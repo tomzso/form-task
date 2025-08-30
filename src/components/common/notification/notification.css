@@ -14,14 +14,25 @@
   justify-content: center;
   align-items: center;
   gap: 10px;
-  padding: 10px 20px;
+  padding: 20px 20px;
+
+  /* animation defaults */
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 1.4s ease, transform 1.4s ease;
 }
+
+.notification.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 
 .notification.success {
   background-color: #4caf50; /* green */
 }
 
-.notification.validation-success {
+.notification.validationsuccess {
   background-color: #66bb6a; /* light green */
 }
 
@@ -44,7 +55,7 @@
   background-color: #2e7d32; /* darker green */
 }
 
-.notification-progress.validation-success {
+.notification-progress.validationsuccess {
   background-color: #2e7d32; /* darker green */
 }
 
@@ -62,6 +73,6 @@
     right: 20px;
     width: 300px;
     left: auto;
-    padding: 12px 20px;
+    padding: 15px 20px;
   }
 }
