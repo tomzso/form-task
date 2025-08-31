@@ -12,20 +12,22 @@ export const useFormData = () => {
         const formLabelData = await getLabels();
         setFormLabels(formLabelData.data);
 
-        formLabelData.data.forEach(async (field) => {
+        (formLabelData.data || []).forEach(async (field) => {
           if (field.widget === "choice") {
             const choiceData = await getChoices(field.id);
             setChoices((prev) => ({ ...prev, [field.id]: choiceData.data }));
           }
         });
-        setLoading(false);
+        if (formLabelData.data && formLabelData.data.length > 0) {
+          setLoading(false);
+        }
       } catch (err) {
         console.error(err.message || "Error fetching form");
-      } 
+      }
     };
 
     fetchForm();
   }, []);
 
-  return { formLabels, choices, loading };
+  return { formLabels: formLabels || [], choices, loading };
 };

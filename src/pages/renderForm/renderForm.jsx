@@ -41,14 +41,8 @@ export const RenderForm = () => {
   const showTimedNotification = (message, type) => {
     showNotification(message, type);
     setButtonsDisabled(true);
-    setTimeout(() => setButtonsDisabled(false), notificationDuration + extraNotificationDuration); 
+    setTimeout(() => setButtonsDisabled(false), notificationDuration + extraNotificationDuration);
   };
-
-  // all indexes where widget is "choice"
-  const choiceIdxs = formLabels
-    .map((field, idx) => (field.widget === "choice" ? idx : null))
-    .filter((idx) => idx !== null);
-
 
   const handleInputChange = (fieldId, value, widget) => {
     // Handle empty value for "choice" and "text"
@@ -168,7 +162,7 @@ export const RenderForm = () => {
                 if (value) moveToNextField(idx);
               }}
               inputRef={inputRefs.current[idx]}
-              lastField={idx === formLabels.length - 1} // lastField={idx === formLabels.length - 1} lastField={choiceIdxs.includes(idx)}
+              lastField={idx === formLabels.length - 1} 
               nextFieldType={formLabels[idx + 1]?.widget}
             />
           )}
