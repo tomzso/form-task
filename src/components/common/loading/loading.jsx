@@ -21,7 +21,7 @@ export const Loading = () => {
   if (timedOut) {
     return (
       <div className="page-not-found">
-        <h1><FontAwesomeIcon icon={faTriangleExclamation} size="lg" /> Something Went Wrong</h1>
+        <h2><FontAwesomeIcon icon={faTriangleExclamation} size="lg" /> Something Went Wrong</h2>
       </div>
     );
   }
