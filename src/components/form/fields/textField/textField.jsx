@@ -3,10 +3,9 @@ import "./textField.css";
 import "../../formCard/formCard.css";
 import { useAutosizeTextarea } from "../../../../hooks/useAutosizeTextarea";
 
-export const TextField = ({ field, value, error, onChange, inputRef, onKeyDown }) => {
+export const TextField = ({ field, value, error, onChange, inputRef, onKeyDown, maxLength }) => {
   const localRef = useRef();
   const finalRef = inputRef || localRef;
-  const maxLength = 50; 
 
   useAutosizeTextarea(finalRef, value); 
 

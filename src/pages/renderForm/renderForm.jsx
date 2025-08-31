@@ -28,6 +28,8 @@ import {
 export const RenderForm = () => {
   const notificationDuration = 3000;
   const extraNotificationDuration = 300;
+  const maxTextLength = 50;
+  const maxIntegerLength = 20;
 
   const { formLabels, choices, loading } = useFormData();
   const { inputRefs, moveToNextField, handleFieldKeyDown } = useFieldNavigation(formLabels);
@@ -150,6 +152,10 @@ export const RenderForm = () => {
           widgetType={field.widget}
           className={flashFields.has(field.id) ? "form-field--flash" : ""}
           error={errors[field.id]}
+              warning={
+                (field.widget === "text" && userAnswers[field.id]?.length >= maxTextLength) ||
+                (field.widget === "integer" && userAnswers[field.id]?.length >= maxIntegerLength)
+              }
         >
           {field.widget === "choice" && (
             <ChoiceField
@@ -174,6 +180,7 @@ export const RenderForm = () => {
               onChange={handleInputChange}
               inputRef={inputRefs.current[idx]}
               onKeyDown={(e) => handleFieldKeyDown(e, idx)}
+              maxLength={maxIntegerLength}
             />
           )}
           {field.widget === "text" && (
@@ -184,6 +191,7 @@ export const RenderForm = () => {
               onChange={handleInputChange}
               inputRef={inputRefs.current[idx]}
               onKeyDown={(e) => handleFieldKeyDown(e, idx)}
+              maxLength={maxTextLength}
             />
           )}
         </FormField>

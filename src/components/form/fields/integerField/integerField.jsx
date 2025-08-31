@@ -3,10 +3,9 @@ import "./integerField.css";
 import "../../formCard/formCard.css";
 import { useAutosizeTextarea } from "../../../../hooks/useAutosizeTextarea";
 
-export const IntegerField = ({ field, value, error, onChange, inputRef, onKeyDown }) => {
+export const IntegerField = ({ field, value, error, onChange, inputRef, onKeyDown, maxLength }) => {
   const localRef = useRef();
   const finalRef = inputRef || localRef;
-  const maxLength = 20; 
 
   useAutosizeTextarea(finalRef, value);
 

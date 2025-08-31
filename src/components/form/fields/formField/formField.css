@@ -35,6 +35,10 @@
   color: #f44336; /* red */
 }
 
+.warning-icon {
+  color: #ff9800; /* orange */
+}
+
 .type-icon {
   color: #BBBBBB; /* grey */
 }
