@@ -5,7 +5,8 @@ import { useAutosizeTextarea } from "../../../../hooks/useAutosizeTextarea";
 
 export const TextField = ({ field, value, error, onChange, inputRef, onKeyDown }) => {
   const localRef = useRef();
-  const finalRef = inputRef || localRef; // This correctly determines which ref to use
+  const finalRef = inputRef || localRef;
+  const maxLength = 50; 
 
   useAutosizeTextarea(finalRef, value); 
 
@@ -24,7 +25,9 @@ export const TextField = ({ field, value, error, onChange, inputRef, onKeyDown }
           }
         }}
         rows={1}
+        maxLength={maxLength}
       />
+      {(maxLength <= value?.length) && <div className="form-field-warning-message">Value exceeds maximum length</div>}
       {error && <div className="form-field-error-message">{error}</div>}
     </div>
   );

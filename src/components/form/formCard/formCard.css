@@ -35,6 +35,13 @@
   font-style: italic;
 }
 
+.form-field-warning-message {
+  color: #ef870b;
+  font-size: 18px;
+  margin-top: 15px;
+  font-style: italic;
+}
+
 @media (min-width: 1024px) {
   .form-field-width {
     width: 700px;
